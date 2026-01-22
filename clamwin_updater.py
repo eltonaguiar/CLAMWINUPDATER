@@ -14,7 +14,6 @@ import os
 import sys
 import urllib.request
 import urllib.error
-from pathlib import Path
 
 # Default ClamWin database directory
 DEFAULT_DB_DIR = r"C:\ProgramData\.clamwin\db"
@@ -103,11 +102,16 @@ def backup_existing_files(db_dir):
                     print(f"Created backup directory: {backup_dir}")
                 
                 backup_path = os.path.join(backup_dir, filename)
-                if os.path.exists(backup_path):
-                    os.remove(backup_path)
                 
-                os.rename(filepath, backup_path)
-                print(f"Backed up {filename} to backup directory")
+                # Remove old backup if it exists and rename current file
+                try:
+                    if os.path.exists(backup_path):
+                        os.remove(backup_path)
+                    os.rename(filepath, backup_path)
+                    print(f"Backed up {filename} to backup directory")
+                except OSError as e:
+                    print(f"Warning: Could not backup {filename}: {str(e)}")
+                    # Continue with update even if backup fails
         
         if not has_files:
             print("No existing database files to backup")

@@ -1,6 +1,6 @@
 @echo off
 REM ClamWin Database Updater - Windows Batch Wrapper
-REM This batch file runs the Python updater script with elevated privileges
+REM This batch file runs the Python updater script
 
 echo ================================================
 echo ClamWin Database Updater
